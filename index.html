@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .word-display {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 18px;
+      width: 300px;
+      margin-bottom: 20px;
+    }
+    .scoreboard {
+      font-size: 18px;
+    }
+    .time {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Typing Speed Game</h1>
+  <div class="word-display" id="word-display">Start Typing...</div>
+  <input type="text" id="word-input" placeholder="Type the word here..." autofocus />
+  <div class="scoreboard">
+    <p>Score: <span id="score">0</span></p>
+    <p>Time Left: <span id="time" class="time">60</span> seconds</p>
+  </div>
+
+  <script>
+    const words = [
+      'javascript', 'coding', 'computer', 'keyboard', 'monitor', 'browser', 'internet',
+      'programming', 'development', 'software', 'application', 'function', 'variable',
+      'document', 'element', 'script', 'style', 'syntax', 'server', 'client', 'responsive','inviable',
+      'ambiguous','conscientious','quizzical','peripheral','philanthropy','serendipit','ybureaucracy','mnemonicidiosyncraticxenophobiai','conceivable','juxtapositin','hyperbole','anachronistic','quintessential','transcendental'
+,'unobtrusive','purkazi', 'Muzaffernager','UttarPradesh',
+    ];
+    
+    let score = 0;
+    let timeLeft = 60;
+    let isPlaying = false;
+
+    const wordDisplay = document.getElementById('word-display');
+    const wordInput = document.getElementById('word-input');
+    const scoreDisplay = document.getElementById('score');
+    const timeDisplay = document.getElementById('time');
+
+    function getRandomWord() {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      return words[randomIndex];
+    }
+
+    function startGame() {
+      if (!isPlaying) {
+        isPlaying = true;
+        score = 0;
+        timeLeft = 60;
+        scoreDisplay.textContent = score;
+        wordInput.value = '';
+        wordDisplay.textContent = getRandomWord();
+        wordInput.focus();
+
+        const timer = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            timeDisplay.textContent = timeLeft;
+          } else {
+            clearInterval(timer);
+            isPlaying = false;
+            alert('Time’s up! Your final score is ' + score);
+            wordDisplay.textContent = 'Start Typing...';
+          }
+        }, 1000);
+      }
+    }
+
+    wordInput.addEventListener('input', () => {
+      if (wordInput.value === wordDisplay.textContent) {
+        score++;
+        scoreDisplay.textContent = score;
+        wordInput.value = '';
+        wordDisplay.textContent = getRandomWord();
+      }
+    });
+
+    wordInput.addEventListener('focus', startGame);
+  </script>
+
+</body>
+</html>
